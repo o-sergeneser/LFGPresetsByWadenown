@@ -1,0 +1,17 @@
+## Interface: 120105
+## Title: LFG Presets By Wadenown
+## Notes: Compact application and group listing presets. Copy manually with Ctrl+C.
+## Author: Wadenown
+## IconTexture: Interface\AddOns\LFGPresetsByWadenown\Media\Icon.tga
+## Version: 1.0.0
+## SavedVariables: LFGPresetsByWadenownDB
+Locale.lua
+Data.lua
+Fonts.lua
+Persistence.lua
+Themes.lua
+UI.lua
+Layout.lua
+Options.lua
+Launcher.lua
+Core.lua

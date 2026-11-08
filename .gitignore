@@ -1,0 +1,8 @@
+tests/node_modules/
+tests/.npm-cache/
+tests/*.reference
+.release/
+*.zip
+*.log
+.DS_Store
+Thumbs.db

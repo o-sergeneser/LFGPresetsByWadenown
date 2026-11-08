@@ -1,0 +1,11 @@
+*.lua text eol=lf
+*.toc text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.cjs text eol=lf
+*.ps1 text eol=crlf
+*.ttf binary
+*.tga binary
+*.png binary
+* text=auto eol=lf
+Media/Fonts/PTSansNarrow-Bold-LICENSE.txt -whitespace

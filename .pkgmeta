@@ -1,0 +1,11 @@
+package-as: LFGPresetsByWadenown
+enable-nolib-creation: no
+ignore:
+  - tests
+  - docs
+  - .github
+  - .gitignore
+  - .gitattributes
+  - .pkgmeta
+  - Media/Icon.png
+  - CHANGELOG.md

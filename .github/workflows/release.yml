@@ -1,0 +1,42 @@
+name: Package and release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      CF_PROJECT_ID: ${{ vars.CF_PROJECT_ID }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+      - name: Check release configuration
+        shell: bash
+        run: |
+          [[ "$CF_PROJECT_ID" =~ ^[0-9]+$ ]] || { echo 'Set the CF_PROJECT_ID repository variable.'; exit 1; }
+          [[ -n "$CF_API_KEY" ]] || { echo 'Set the CF_API_KEY repository secret.'; exit 1; }
+      - run: npm ci --prefix tests
+      - run: node tests/run.cjs
+      - run: node tests/check-font.cjs
+      - run: node tests/check-project.cjs
+      - name: Package and upload
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -p ${{ vars.CF_PROJECT_ID }}
