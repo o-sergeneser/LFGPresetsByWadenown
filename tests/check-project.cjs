@@ -9,8 +9,8 @@ for(const file of modules){
 assert(toc.includes('## SavedVariables: LFGPresetsByWadenownDB'));
 assert(toc.includes('## IconTexture: Interface\\AddOns\\LFGPresetsByWadenown\\Media\\Icon.tga'));
 const icon=fs.readFileSync('Media/Icon.tga');
-assert(icon[2]===2&&icon.readUInt16LE(12)===256&&icon.readUInt16LE(14)===256&&icon[16]===32);
-assert(icon.length===18+256*256*4);
+assert(icon[2]===2&&icon.readUInt16LE(12)===32&&icon.readUInt16LE(14)===32&&icon[16]===32);
+assert(icon.length===18+32*32*4);
 const meta=fs.readFileSync('.pkgmeta','utf8');
 for(const path of ['tests','docs','.github','Media/Icon.png'])assert(meta.includes(`  - ${path}`));
 if(process.env.GITHUB_REF_TYPE==='tag'){

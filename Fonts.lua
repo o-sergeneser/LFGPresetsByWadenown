@@ -14,7 +14,7 @@ function A.ApplyFont(object,adjustment,resetBase)
     local success=object:SetFont(A.fontPath,targetSize,metrics.flags)
     if success==false and not A.fontWarningShown then
         A.fontWarningShown=true
-        print(A.L('LFG Presets By Wadenown: PT Sans Narrow Bold could not be loaded. Using the existing font; restart WoW and try again.'))
+        print(A.L('LFG Templates By Wadenown: PT Sans Narrow Bold could not be loaded. Using the existing font; restart WoW and try again.'))
     end
 end
 function A.GetTooltip()

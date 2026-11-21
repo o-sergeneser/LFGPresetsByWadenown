@@ -227,7 +227,7 @@ function A.SyncLocks()
         renderLock(f.lock,locked)
         f.attach:SetChecked(A.db.settings[kind].attached or false)
         f.autoCheck:SetChecked(A.db.settings[kind].automatic)
-        A.SetText(f.footer,locked and 'Position locked. Type /lfp for more options.' or 'Drag header to move. Type /lfp for more options.')
+        A.SetText(f.footer,locked and 'Position locked. Type /lft for more options.' or 'Drag header to move. Type /lft for more options.')
         if A.optionRows and A.optionRows[kind] then
             A.optionRows[kind].lock.locked=locked
             A.SetText(A.optionRows[kind].lock.text,locked and 'Unlock Panel' or 'Lock Panel')

@@ -13,7 +13,7 @@ No remote repository, upload, token or ZIP has been created by the agent. Use yo
 
 ## 2. CurseForge project
 
-1. Create a World of Warcraft addon project named LFG Presets By Wadenown in the CurseForge author dashboard.
+1. Create a World of Warcraft addon project named LFG Templates By Wadenown in the CurseForge author dashboard.
 2. Add the agreed English description, icon/screenshots, categories and chosen source-code license. Use `docs/branding/CurseForge-Icon.png` for the detailed purple project icon. Add the GitHub repository as its source link.
 3. Complete the current onboarding/moderation requirements and copy the numeric Project ID from the dashboard/About Project area.
 4. Generate a CurseForge API token at https://www.curseforge.com/account/api-tokens . Keep it out of source files, screenshots, chat and commits.

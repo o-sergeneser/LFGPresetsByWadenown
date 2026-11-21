@@ -231,9 +231,9 @@ function A.RefreshCards()
                 local titleEmpty=not title:find('%S')
                 local bodyEmpty=not body:find('%S')
                 row.title:SetShown(not app)
-                if not app then preview(not titleEmpty and title or (bodyEmpty and A.L("Empty Preset") or ""),row.title,width-66) end
+                if not app then preview(not titleEmpty and title or (bodyEmpty and A.L("Empty Template") or ""),row.title,width-66) end
                 row.body:ClearAllPoints(); row.body:SetPoint("TOPLEFT",12,app and -16 or -28)
-                descriptionPreview(not bodyEmpty and body or (app and A.L('Empty Preset') or ''),row.body,width-66)
+                descriptionPreview(not bodyEmpty and body or (app and A.L('Empty Template') or ''),row.body,width-66)
                 A.previewCaches[row]={title=title,body=body,width=width,language=A.db.language,fontSize=fontSize}
             end
         end
@@ -313,7 +313,7 @@ function A.OpenEditor(index,isNew)
     local app = e.kind == "application"
     local p = isNew and {} or A.Get(e.kind,index)
     e.delete:SetShown(not isNew)
-    A.SetText(e.heading,app and "Application Preset" or (e.kind == "raid" and "Edit Raid Preset" or "Edit Dungeon Preset"))
+    A.SetText(e.heading,app and "Application Template" or (e.kind == "raid" and "Edit Raid Template" or "Edit Dungeon Template"))
     e.titleLabel:SetShown(not app); e.titleHolder:SetShown(not app)
     A.SetText(e.bodyLabel,app and "Note" or "Description")
     e.bodyLabel:ClearAllPoints(); e.bodyLabel:SetPoint("TOPLEFT",16,app and -55 or -128)
@@ -341,7 +341,7 @@ end
 local function buildPanel(kind)
     A.panel = window("LFGPresetsByWadenownPanel"..kind,344,448)
     local f = A.panel
-    label(f,"LFG Presets By Wadenown",14,-39,"GameFontDisableSmall")
+    label(f,"LFG Templates By Wadenown",14,-39,"GameFontDisableSmall")
     f.kind=kind
     f:SetScript("OnHide",function()
         if A.keepOpen then A.keepOpen[kind]=nil end
@@ -384,7 +384,7 @@ local function buildPanel(kind)
         gear:SetTexture("Interface\\Buttons\\UI-OptionsButton"); gear:SetSize(16,16); gear:SetPoint("TOPRIGHT",3,3)
         b:HookScript("OnEnter",function()
             local tooltip=A.GetTooltip()
-            tooltip:SetOwner(b,"ANCHOR_RIGHT"); tooltip:SetText(A.L("Copy / Edit Preset")); A.ShowTooltip()
+            tooltip:SetOwner(b,"ANCHOR_RIGHT"); tooltip:SetText(A.L("Copy / Edit Template")); A.ShowTooltip()
         end)
         b:HookScript("OnLeave",function() A.GetTooltip():Hide() end)
         b:SetScript("OnClick",function() A.Activate(kind); A.OpenEditor(i) end)
@@ -456,7 +456,7 @@ function A.BuildUI()
     A.SetButtonStyle(delete,'tertiary'); e.delete=delete
     local dialog=window('LFGPresetsByWadenownDeleteDialog',310,170); A.deleteDialog=dialog
     dialog:SetFrameStrata('FULLSCREEN_DIALOG'); dialog:SetPoint('CENTER')
-    A.SetText(dialog.heading,'Delete Preset?')
+    A.SetText(dialog.heading,'Delete Template?')
     table.insert(UISpecialFrames,'LFGPresetsByWadenownDeleteDialog')
     local question=label(dialog,'Are you sure you want to permanently delete this slot?',18,-53)
     question:SetWidth(274); question:SetWordWrap(true)

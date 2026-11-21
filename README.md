@@ -1,11 +1,11 @@
-# LFG Presets By Wadenown
+# LFG Templates By Wadenown
 
 Save and reuse application notes, dungeon listing titles/descriptions and raid listing titles/descriptions beside Blizzard's Group Finder.
 
-Open settings with **`/lfp`**, **`/lfgpresets`**, or the **LFG Presets** tab in Dungeons & Raids. A launcher is also available in Blizzard's AddOns settings.
+Open settings with **`/lft`**, **`/lfgtemplates`**, or the **LFG Templates** tab in Dungeons & Raids. The previous `/lfp` and `/lfgpresets` commands remain available as aliases. A launcher is also available in Blizzard's AddOns settings.
 
-- Account-wide presets and preferences, shared across characters.
-- Five initial slots per category, with **+ Slot** to add more.
+- Account-wide templates and preferences, shared across characters.
+- Five empty initial slots per category, with **+ Slot** to add more.
 - Classic and Modern themes; English and Turkish interfaces.
 - Independent automatic opening, position and lock settings for each panel.
 - Attach panels to native windows, or drag them independently.
@@ -13,17 +13,17 @@ Open settings with **`/lfp`**, **`/lfgpresets`**, or the **LFG Presets** tab in 
 - Optional retention of the native application note between applications.
 - Adjustable scale and background opacity.
 
-Open a preset and edit its text. **Ctrl+C** copies the current selection through the native EditBox, saves all draft fields and closes the editor. Paste manually into Blizzard's fields. **Save** saves without copying; **X/Escape** discards changes. **Delete** requires confirmation. Enter does not insert hard line breaks; pasted line breaks become spaces. Character limits are 31 for titles, 255 for descriptions and 63 for application notes.
+Open a template and edit its text. **Ctrl+C** copies the current selection through the native EditBox, saves all draft fields and closes the editor. Paste manually into Blizzard's fields. **Save** saves without copying; **X/Escape** discards changes. **Delete** requires confirmation. Enter does not insert hard line breaks; pasted line breaks become spaces. Character limits are 31 for titles, 255 for descriptions and 63 for application notes.
 
-Blizzard restrictions prevent arbitrary preset autofill into native fields. Note persistence keeps an existing native note rather than writing a preset, and does not store that native note across reloads. Another addon with its own persistence enabled can also retain it when our setting is off.
+Blizzard restrictions prevent arbitrary template autofill into native fields. Note persistence keeps an existing native note rather than writing a template, and does not store that native note across reloads. Another addon with its own persistence enabled can also retain it when our setting is off.
 
-Settings and presets use account-wide `LFGPresetsByWadenownDB` SavedVariables and are written to disk on normal logout/reload. This folder is loaded directly by WoW: no local build step or third-party addon dependency is required.
+Settings and templates use account-wide `LFGPresetsByWadenownDB` SavedVariables and are written to disk on normal logout/reload. This folder is loaded directly by WoW: no local build step or third-party addon dependency is required.
 
 ## Bundled media
 
 PT Sans Narrow Bold is bundled under SIL Open Font License 1.1. Copyright (c) 2010 ParaType Ltd. The unmodified font and its license are in `Media/Fonts`. SharedMedia and global Blizzard font changes are not required. The native Group Finder launcher follows its neighboring tabs' font.
 
-`Media/Icon.tga` is the simplified in-game icon with a prominent Wade wordmark, checked at 24 and 32 pixels. The original detailed purple artwork for CurseForge is preserved in `docs/branding/CurseForge-Icon.png`. Branding originals and preview PNGs are excluded from the install package.
+`Media/Icon.tga` uses the supplied 32-pixel Wade icon at its native resolution. The Group Finder tab includes a 16-pixel copy beside its label and follows the rightmost visible native tab. The current CurseForge artwork is saved in `docs/branding/CurseForge-Icon-Templates.png`; the earlier artwork is preserved in `docs/branding/CurseForge-Icon.png`. Branding originals and preview PNGs are excluded from the install package.
 
 ## Development
 

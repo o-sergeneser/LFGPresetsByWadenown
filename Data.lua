@@ -1,10 +1,10 @@
 local _, A = ...
-A.names = { dungeon = "Dungeon Presets", raid = "Raid Presets", application = "Application Presets" }
+A.names = { dungeon = "Dungeon Templates", raid = "Raid Templates", application = "Application Templates" }
 function A.Initialize()
     if type(LFGPresetsByWadenownDB) ~= "table" then LFGPresetsByWadenownDB = {} end
     A.db = LFGPresetsByWadenownDB
     if A.db.schemaVersion and A.db.schemaVersion > 4 then
-        print(A.L("LFG Presets By Wadenown: newer saved data detected; addon disabled."))
+        print(A.L("LFG Templates By Wadenown: newer saved data detected; addon disabled."))
         return false
     end
     A.db.schemaVersion = 4

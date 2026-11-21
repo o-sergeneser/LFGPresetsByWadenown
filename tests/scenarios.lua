@@ -8,7 +8,14 @@ assert(not LFGListApplicationDialog.scripts.OnHide)
 assert(A.Initialize()); A.BuildUI(); A.BuildOptions()
 A.uiReady=true
 assert(A.db.appearance.theme=='classic')
-for kind in pairs(A.names) do assert(#A.db.presets[kind]==5) end
+for kind in pairs(A.names) do
+ assert(#A.db.presets[kind]==5)
+ for _,slot in ipairs(A.db.presets[kind]) do
+  if kind=='application' then assert(slot.note=='')
+  else assert(slot.title=='' and slot.description=='') end
+ end
+end
+print('PASS: fresh installs contain five empty slots in every category')
 local e=A.editor
 local function open(kind,title,body)
  A.editor:Hide()
@@ -248,7 +255,7 @@ assert(A.editor.bodyBox.maxLetters==63)
 A.editor.bodyBox:SetText(string.rep('ç',63)); assert(A.editor.counter.color[1]==1)
 A.editor.bodyBox:SetText('short'); assert(A.editor.counter.color[1]==.6)
 print('PASS: title without scroll frame, native 31/255/63 character limits configured, red counter at exact limit including UTF-8')
-assert(A.options.heading:GetText()=='LFG Presets By Wadenown - Options')
+assert(A.options.heading:GetText()=='LFG Templates By Wadenown - Options')
 A.SetTheme('classic')
 local done=A.options.done; local lock=A.optionRows.dungeon.lock
 local reset=A.optionRows.dungeon.resetPosition; local clear=A.optionRows.dungeon.resetPresets
@@ -476,7 +483,7 @@ local focusedBeforeLanguage=A.editor.bodyBox:HasFocus()
 A.languageButtons.tr.scripts.OnClick()
 assert(A.db.language=='tr' and A.languageButtons.tr.selected and not A.languageButtons.en.selected)
 assert(A.buttons[A.languageButtons.tr].inset and not A.buttons[A.languageButtons.en].inset)
-assert(A.options.heading:GetText()=='LFG Presets By Wadenown - Ayarlar')
+assert(A.options.heading:GetText()=='LFG Templates By Wadenown - Ayarlar')
 assert(A.options.done.text:GetText()=='Tamam')
 assert(A.editor.save.text:GetText()=='Kaydet' and A.editor.delete.text:GetText()=='Sil')
 assert(A.editor.titleLabel:GetText()=='Başlık' and A.editor.bodyLabel:GetText()=='Not')
@@ -492,7 +499,7 @@ A.optionRows.dungeon.resetPresets.scripts.OnClick()
 A.refreshResetDialog()
 A.Initialize(); assert(A.db.language=='tr')
 A.languageButtons.en.scripts.OnClick()
-assert(A.options.heading:GetText()=='LFG Presets By Wadenown - Options')
+assert(A.options.heading:GetText()=='LFG Templates By Wadenown - Options')
 assert(A.editor.save.text:GetText()=='Save' and A.languageButtons.en.selected)
 assert(A.Get('dungeon',1).title=='Save')
 print('PASS: default English, instant complete Turkish interface, selected language buttons, saved preference, switch back, user content/draft/focus unchanged')
@@ -533,24 +540,43 @@ LFGListApplicationDialog:Show(); LFGListFrame.EntryCreation:Show()
 A.editor:Hide(); A.Activate('dungeon'); A.panel:Show(); A.OpenEditor(1)
 local sessionBeforeLauncher=A.editor.session
 A.preview.dungeon=true
+A.InstallPVELauncher(); assert(A.pveLauncher and not A.pveLauncher:IsShown())
+PVEFrameTab3=CreateFrame('Button','PVEFrameTab3',PVEFrame,'PanelTabButtonTemplate')
 A.InstallPVELauncher(); local launcher=A.pveLauncher
-assert(launcher and launcher:GetText()=='LFG Presets')
-assert(#PVEFrame.Tabs==3 and #launcher:GetParent().Tabs==1)
+assert(launcher and launcher:GetText():find('Icon.tga:16:16:0:0',1,true) and launcher:GetText():find('LFG Templates',1,true))
+assert(launcher.point[1]=='BOTTOMLEFT' and launcher.point[2]==PVEFrameTab3 and launcher.point[3]=='BOTTOMRIGHT')
+assert(launcher.point[4]==3 and launcher.point[5]==0)
+assert(#PVEFrame.Tabs==4 and #launcher:GetParent().Tabs==1)
 launcher.scripts.OnClick()
 assert(A.options:IsShown() and PVEFrame:IsShown() and LFGListApplicationDialog:IsShown() and LFGListFrame.EntryCreation:IsShown())
 assert(A.editor:IsShown() and A.editor.session==sessionBeforeLauncher and A.preview.dungeon)
 assert(PVEFrame.activeTabIndex==1)
 A.InstallPVELauncher(); assert(A.pveLauncher==launcher)
-print('PASS: isolated LFG Presets launcher tab opens Options without hiding native/addon windows, changing tabs or clearing previews/drafts; installs once')
-PVEFrameTab3=CreateFrame('Button',nil,CreateFrame('Frame'),'PanelTabButtonTemplate')
+print('PASS: isolated LFG Templates launcher tab opens Options without hiding native/addon windows, changing tabs or clearing previews/drafts; installs once')
 PVEFrameTab3:GetFontString():SetFont('UserInterfaceFont.ttf',13,'OUTLINE')
-launcher.scripts.OnShow(launcher)
+PVEFrame.scripts.OnShow(PVEFrame)
 assert(launcher:GetFontString().fontPath=='UserInterfaceFont.ttf' and launcher:GetFontString().fontSize==13)
 assert(launcher:GetFontString().fontFlags=='OUTLINE')
 PVEFrameTab3:GetFontString():SetFont('UpdatedUserFont.ttf',14,'')
 launcher.scripts.OnEnter(launcher)
 assert(launcher:GetFontString().fontPath=='UpdatedUserFont.ttf')
-print('PASS: LFG Presets launcher follows native neighboring tab font, size, flags and later UI font changes')
+print('PASS: LFG Templates launcher follows native neighboring tab font, size, flags and later UI font changes')
+local extraTab=CreateFrame('Button','PVEFrameTab9',PVEFrame,'PanelTabButtonTemplate')
+extraTab.right=700
+A.InstallPVELauncher(); assert(launcher.point[2]==extraTab)
+extraTab:Hide(); assert(launcher.point[2]==PVEFrameTab3)
+extraTab:Show(); assert(launcher.point[2]==extraTab)
+PVEFrameTab3.right=450; PVEFrameTab3.effectiveScale=2
+PVEFrameTab3.scripts.OnSizeChanged(); assert(launcher.point[2]==PVEFrameTab3)
+PVEFrameTab3.effectiveScale=1
+PVEFrame.scripts.OnSizeChanged(); assert(launcher.point[2]==extraTab)
+extraTab:Hide(); PVEFrameTab3:Hide(); assert(not launcher:IsShown())
+PVEFrameTab3:Show(); assert(launcher:IsShown() and launcher.point[2]==PVEFrameTab3)
+local registeredTab=CreateFrame('Button','RegisteredExtraTab',PVEFrame,'PanelTabButtonTemplate')
+registeredTab.right=800
+A.RefreshPVELauncher(); assert(launcher.point[2]==registeredTab)
+registeredTab:Hide(); assert(launcher.point[2]==PVEFrameTab3)
+print('PASS: launcher discovers visible native/registered tabs, compares scaled edges, updates on visibility/size changes, and includes the new icon')
 local previousPlace=A.Place; local snaps=0
 A.Place=function(frame,anchor,position,adjacentOnly)
  if adjacentOnly then snaps=snaps+1; assert(position==nil) end
@@ -606,14 +632,14 @@ for _,kind in ipairs({'dungeon','raid','application'}) do
   A.Activate(kind); A.panel:Show(); A.OpenEditor(1)
   A.editor.titleBox:SetText(blank); A.editor.bodyBox:SetText(blank); A.SaveEditor()
   local row=A.panels[kind].rows[1]
-  assert((kind=='application' and row.body or row.title):GetText()=='Empty Preset')
+  assert((kind=='application' and row.body or row.title):GetText()=='Empty Template')
   local p=A.Get(kind,1); assert((p.note or p.description)==blank)
  end
 end
 A.SetLanguage('tr')
 assert(A.panels.dungeon.rows[1].title:GetText()=='Boş Şablon')
 assert(A.panels.application.rows[1].body:GetText()=='Boş Şablon')
-print('PASS: clearing/saving empty or whitespace-only slots always shows localized Empty Preset in all three lists')
+print('PASS: clearing/saving empty or whitespace-only slots always shows localized Empty Template in all three lists')
 A.editor:Hide(); A.Activate('dungeon')
 while #A.db.presets.dungeon<200 do A.Append('dungeon',string.rep('a',31),string.rep('ç',255)) end
 local before=mockMetrics.measurements
@@ -631,3 +657,15 @@ assert(utf8.len(A.rows[200].body:GetText()))
 assert(not A.dockWatching and not A.editor.scripts.OnUpdate)
 print('PERF: 200 slots; cold width/height measurements='..cold..'; 20 unchanged refreshes='..warm..'; one changed long UTF-8 row='..changed)
 print('PASS: syntax, 15 slots, focus matrix, application field visibility, deferred full-draft save, cancellation, reload initialization, categories, priority, combat hiding')
+
+local savedSlot=A.Get('dungeon',1)
+local savedTitle,savedBody=savedSlot.title,savedSlot.description
+eventFrame.scripts.OnEvent(eventFrame,'ADDON_LOADED','LFGPresetsByWadenown')
+assert(SLASH_LFGPRESETSBYWADENOWN1=='/lfgtemplates' and SLASH_LFGPRESETSBYWADENOWN2=='/lft')
+assert(SLASH_LFGPRESETSBYWADENOWN3=='/lfgpresets' and SLASH_LFGPRESETSBYWADENOWN4=='/lfp')
+assert(A.Get('dungeon',1)==savedSlot and savedSlot.title==savedTitle and savedSlot.description==savedBody)
+A.options:Hide(); SlashCmdList.LFGPRESETSBYWADENOWN(); assert(A.options:IsShown())
+A.SetLanguage('en')
+assert(A.L('Empty Template')=='Empty Template')
+assert(A.options.heading:GetText()=='LFG Templates By Wadenown - Options')
+print('PASS: new and legacy slash commands open renamed Options and startup preserves existing templates')

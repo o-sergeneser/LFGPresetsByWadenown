@@ -1,8 +1,8 @@
 local _,A=...
 local usage1='Panels appear beside group creation and applications.'
-local usage2='Open a preset, edit, then Ctrl+C to copy, save and close. Paste manually.'
+local usage2='Open a template, edit, then Ctrl+C to copy, save and close. Paste manually.'
 local order={'application','dungeon','raid'}
-local titles={application='Application Notes',dungeon='Dungeon Presets',raid='Raid Presets'}
+local titles={application='Application Notes',dungeon='Dungeon Templates',raid='Raid Templates'}
 local descriptions={application='Shared across all applications.',dungeon='Dungeon group creation.',raid='Raid group creation.'}
 local function checkbox(parent,text,x,y,callback)
     local b=CreateFrame('CheckButton',nil,parent,'UICheckButtonTemplate')
@@ -28,7 +28,7 @@ end
 function A.BuildOptions()
     A.preview={}; A.optionRows={}
     local f=A.Window('LFGPresetsByWadenownOptions',660,616); A.options=f
-    f:SetPoint('CENTER'); A.SetText(f.heading,'LFG Presets By Wadenown - Options')
+    f:SetPoint('CENTER'); A.SetText(f.heading,'LFG Templates By Wadenown - Options')
     f:SetFrameStrata('FULLSCREEN_DIALOG')
     f:SetMovable(true)
     local header=CreateFrame('Frame',nil,f)
@@ -93,7 +93,7 @@ function A.BuildOptions()
         local reset=A.Button(row,'Reset Position',122,28); reset:SetPoint('TOPLEFT',363,-49)
         A.SetButtonStyle(reset,'tertiary'); row.resetPosition=reset
         reset:SetScript('OnClick',function() A.ResetPosition(kind) end)
-        local clear=A.Button(row,'Reset Presets',122,28); clear:SetPoint('TOPLEFT',493,-49)
+        local clear=A.Button(row,'Reset Templates',122,28); clear:SetPoint('TOPLEFT',493,-49)
         A.SetButtonStyle(clear,'destructive'); row.resetPresets=clear
         clear:SetScript('OnClick',function()
             confirm.kind=kind
@@ -105,7 +105,7 @@ function A.BuildOptions()
     A.refreshResetDialog=function()
         if not confirm.kind then return end
         A.SetText(confirm.heading,'Reset %s?',A.L(titles[confirm.kind]))
-        A.SetText(message,'This clears all %d presets in this section.',#A.db.presets[confirm.kind])
+        A.SetText(message,'This clears all %d templates in this section.',#A.db.presets[confirm.kind])
     end
     local appearance=CreateFrame('Frame',nil,f,'BackdropTemplate'); A.Skin(appearance)
     appearance:SetSize(628,112); appearance:SetPoint('TOPLEFT',16,-442)
@@ -139,13 +139,13 @@ function A.BuildOptions()
     if Settings and Settings.RegisterCanvasLayoutCategory then
         local page=CreateFrame('Frame')
         page:Hide()
-        A.Label(page,'LFG Presets By Wadenown',16,-16,'GameFontNormalLarge')
+        A.Label(page,'LFG Templates By Wadenown',16,-16,'GameFontNormalLarge')
         A.Label(page,usage1,16,-60,'GameFontHighlight')
         local help=A.Label(page,usage2,16,-85,'GameFontHighlight')
         help:SetWidth(560); help:SetWordWrap(true)
         local open=A.Button(page,'Open Options',180,30); open:SetPoint('TOPLEFT',16,-140)
         open:SetScript('OnClick',A.OpenOptions)
-        local category=Settings.RegisterCanvasLayoutCategory(page,'LFG Presets By Wadenown')
+        local category=Settings.RegisterCanvasLayoutCategory(page,'LFG Templates By Wadenown')
         Settings.RegisterAddOnCategory(category)
         A.settingsCategory=category
     end

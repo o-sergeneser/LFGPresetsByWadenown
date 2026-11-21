@@ -85,8 +85,10 @@ events:SetScript("OnEvent",function(_,event,name)
         A.BuildUI()
         A.BuildOptions()
         A.uiReady=true
-        SLASH_LFGPRESETSBYWADENOWN1="/lfgpresets"
-        SLASH_LFGPRESETSBYWADENOWN2="/lfp"
+        SLASH_LFGPRESETSBYWADENOWN1="/lfgtemplates"
+        SLASH_LFGPRESETSBYWADENOWN2="/lft"
+        SLASH_LFGPRESETSBYWADENOWN3="/lfgpresets"
+        SLASH_LFGPRESETSBYWADENOWN4="/lfp"
         SlashCmdList.LFGPRESETSBYWADENOWN=function() A.OpenOptions() end
         attach()
     elseif event=="ADDON_LOADED" or event=="PLAYER_LOGIN" then attach()

@@ -3,7 +3,7 @@ local methods={}
 local nilFields={kind=true,owner=true,dragging=true,dockSide=true,Low=true,High=true,returnHeld=true}
 local mt={__index=function(_,k) if nilFields[k] then return nil end; return methods[k] or function() end end}
 function CreateFrame(_,name,parent,template)
- local f=setmetatable({scripts={},parent=parent,shown=true,text='',w=430,h=383},mt)
+ local f=setmetatable({scripts={},name=name,parent=parent,shown=true,text='',w=430,h=383},mt)
  table.insert(mockFrames,f)
  if template=='UIPanelScrollFrameTemplate' then
   f.ScrollBar=CreateFrame('Slider',nil,f)
@@ -26,6 +26,8 @@ function methods:Hide() local old=self.shown; self.shown=false; if old and self.
 function methods:SetShown(b) if b then self:Show() else self:Hide() end end
 function methods:IsShown() return self.shown end
 methods.IsVisible=methods.IsShown
+function methods:SetPoint(...) self.point={...} end
+function methods:ClearAllPoints() self.point=nil end
 function methods:SetSize(w,h) self.w,self.h=w,h end
 function methods:SetWidth(w) self.w=w end
 function methods:SetHeight(h) self.h=h end
@@ -34,7 +36,7 @@ function methods:SetBackdropColor(r,g,b,a) self.background={r,g,b,a} end
 function methods:GetWidth() return self.w end
 function methods:GetHeight() return self.h end
 function methods:GetThumbTexture() return rawget(self,'thumb') end
-function methods:GetEffectiveScale() return 1 end
+function methods:GetEffectiveScale() return rawget(self,'effectiveScale') or 1 end
 function methods:GetFrameLevel() return rawget(self,'level') or 1 end
 function methods:SetFrameLevel(value) self.level=value end
 function methods:SetFrameStrata(value) self.strata=value end
@@ -54,9 +56,15 @@ function methods:SetValue(value)
 end
 function methods:GetValue() return rawget(self,'value') or 0 end
 function methods:GetLeft() return 100 end
-function methods:GetRight() return 500 end
+function methods:GetRight() return rawget(self,'right') or 500 end
 function methods:GetTop() return 700 end
 function methods:GetParent() return self.parent end
+function methods:GetName() return rawget(self,'name') end
+function methods:GetChildren()
+ local children={}
+ for _,frame in ipairs(mockFrames) do if frame.parent==self then table.insert(children,frame) end end
+ return table.unpack(children)
+end
 function methods:GetVerticalScroll() return rawget(self,'scrollOffset') or 0 end
 function methods:SetVerticalScroll(value) self.scrollOffset=value end
 function methods:StartMoving() self.moving=true end
